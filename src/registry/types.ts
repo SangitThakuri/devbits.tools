@@ -4,6 +4,6 @@ export interface RegistryEntry {
   id: string
   name: string
   description: string
-  icon: string
+  icon: ComponentType<{ className?: string }>
   component: LazyExoticComponent<ComponentType>
 }

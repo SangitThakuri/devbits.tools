@@ -38,7 +38,7 @@ export function Sidebar({ collapsed, onToggle, items, activeId, onSelect }: Side
               }`}
             >
               <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                <Code2 className="h-4 w-4" />
+                <tool.icon className="h-4 w-4" />
               </span>
               {!collapsed && (
                 <div className="min-w-0 flex-1">
