@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 import type { ReactNode } from "react"
 import { Sidebar } from "./Sidebar"
 import { TopBar } from "./TopBar"
@@ -6,21 +5,11 @@ import { useSearchFilter } from "../../hooks/useSearchFilter"
 import { tools } from "../../registry/tools"
 
 interface ShellLayoutProps {
-  activeToolId: string
-  onToolSelect: (id: string) => void
   children: ReactNode
 }
 
-export function ShellLayout({ activeToolId, onToolSelect, children }: ShellLayoutProps) {
+export function ShellLayout({ children }: ShellLayoutProps) {
   const { query, setQuery, filtered } = useSearchFilter(tools)
-
-  const handleSelect = useCallback(
-    (id: string) => {
-      onToolSelect(id)
-      setQuery("")
-    },
-    [onToolSelect, setQuery],
-  )
 
   return (
     <div className="flex h-screen">
@@ -28,8 +17,7 @@ export function ShellLayout({ activeToolId, onToolSelect, children }: ShellLayou
         collapsed={false}
         onToggle={() => {}}
         items={filtered}
-        activeId={activeToolId}
-        onSelect={handleSelect}
+        onNavigate={() => setQuery("")}
       />
       <div className="flex flex-1 flex-col">
         <TopBar searchQuery={query} onSearchChange={setQuery} />
