@@ -40,6 +40,7 @@ export default function RegexTester() {
           pattern={state.pattern}
           flags={state.flags}
           testText={state.testText}
+          matchCount={matchCount}
           onPatternChange={setPattern}
           onFlagsChange={setFlags}
           onTestTextChange={setTestText}
@@ -56,26 +57,28 @@ export default function RegexTester() {
       </div>
 
       <ToolSeoSection
-        howItWorks={[
-          "Enter a regular expression pattern and optional flags (g, i, m, s, u, y) in the pattern field, then type your test string. The engine uses JavaScript's native RegExp to find all matches and highlights them inline in the output panel in real time.",
-          "The cheat sheet above the editor lists the most common regex tokens — character classes, quantifiers, anchors, and groups — so you can build and refine patterns without leaving the page.",
+        steps={[
+          "Type your regex pattern in the pattern field — the border turns green when the expression is valid, red if it has a syntax error.",
+          "Add optional flags in the flags box: g (global), i (case-insensitive), m (multiline), s (dotAll).",
+          "Enter your test string in the Test Text area. Matches are highlighted in real-time in the output panel.",
+          "Refer to the cheat sheet above the editor for a quick reference of common tokens, quantifiers, and anchors.",
         ]}
         faqs={[
           {
             q: "Which regex flavor does this tester use?",
-            a: "JavaScript's ECMAScript regex engine (ECMA-262). The syntax is broadly compatible with PCRE but has differences around lookbehind, atomic groups, and Unicode handling. Enable the 'u' flag for full Unicode mode.",
+            a: "JavaScript's ECMAScript regex engine (ECMA-262). It is broadly compatible with PCRE but has differences around lookbehind support and Unicode handling. Enable the 'u' flag for full Unicode mode.",
           },
           {
             q: "What does the 'g' flag do?",
-            a: "The global flag tells the engine to find all matches in the string rather than stopping after the first. The match count displayed in the output reflects the total number of non-overlapping matches.",
+            a: "The global flag tells the engine to find all matches in the string rather than stopping after the first. The match count in the output reflects total non-overlapping matches.",
+          },
+          {
+            q: "Is my test text sent anywhere?",
+            a: "No. The regex engine runs entirely in your browser via JavaScript's native RegExp. No data is transmitted over the network.",
           },
           {
             q: "Why does my pattern cause the page to freeze?",
-            a: "Certain patterns with nested quantifiers can trigger catastrophic backtracking, causing the engine to hang. If you notice slowness, simplify your quantifiers or add atomic-style grouping.",
-          },
-          {
-            q: "Can I test multiline strings?",
-            a: "Yes. Press Shift+Enter in the test text area to insert a newline. Enable the 'm' flag so that ^ and $ match the start and end of each line rather than the entire string.",
+            a: "Certain patterns with nested quantifiers can trigger catastrophic backtracking. If you notice slowness, simplify your quantifiers or add possessive-style grouping.",
           },
         ]}
       />

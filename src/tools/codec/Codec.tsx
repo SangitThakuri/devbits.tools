@@ -5,7 +5,7 @@ import { CodecOutput } from "./CodecOutput"
 import { ToolSeoSection } from "../../components/ui/ToolSeoSection"
 
 export default function Codec() {
-  const { state, handleInputChange, setType, setMode } = useCodec()
+  const { state, handleInputChange, setType, setMode, hasError } = useCodec()
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -77,6 +77,7 @@ export default function Codec() {
       <div className="grid gap-6 lg:grid-cols-2">
         <CodecInput
           value={state.input}
+          hasError={hasError}
           onChange={handleInputChange}
           placeholder={
             state.mode === "encode"
@@ -92,22 +93,28 @@ export default function Codec() {
       </div>
 
       <ToolSeoSection
-        howItWorks={[
-          "Select the encoding type (Base64 or URL) and the direction (Encode or Decode), then type or paste your input. The output is computed on every keystroke using the browser's built-in atob/btoa APIs and the encodeURIComponent/decodeURIComponent functions.",
-          "Base64 encoding converts binary or text data into a 64-character ASCII alphabet, commonly used in email attachments and data URIs. URL encoding replaces reserved characters with percent-encoded sequences so strings can be safely embedded in a URL.",
+        steps={[
+          "Choose the encoding type — Base64 or URL — using the toggle buttons.",
+          "Choose the direction: Encode converts plain text to encoded format; Decode reverses it.",
+          "Paste or type your input. The result appears instantly on every keystroke with no button press needed.",
+          "Drag a .txt or .json file onto the input area to load its contents automatically.",
         ]}
         faqs={[
           {
             q: "What is the difference between Base64 and URL encoding?",
-            a: "Base64 encodes arbitrary bytes into printable ASCII characters using A–Z, a–z, 0–9, +, and /. URL encoding (percent-encoding) replaces characters that are illegal in URLs with a % followed by two hexadecimal digits.",
+            a: "Base64 encodes arbitrary bytes into a 64-character ASCII alphabet (A–Z, a–z, 0–9, +, /). URL encoding replaces characters that are illegal in URLs with a % followed by two hexadecimal digits.",
           },
           {
             q: "Is Base64 a form of encryption?",
             a: "No. Base64 is an encoding scheme, not encryption. Encoded strings can be decoded by anyone without a key. Do not use it to hide sensitive data.",
           },
           {
+            q: "Is my data sent to a server?",
+            a: "No. All encoding and decoding uses the browser's built-in btoa/atob and encodeURIComponent/decodeURIComponent APIs. Nothing leaves your machine.",
+          },
+          {
             q: "Why does my decoded Base64 output look like garbage?",
-            a: "The original data was likely binary (an image, PDF, etc.) rather than plain text. The tool displays the raw decoded bytes as UTF-8 text, which may not render correctly for non-text content.",
+            a: "The original data was likely binary (an image, PDF, etc.) rather than plain text. The tool displays raw decoded bytes as UTF-8 text, which may not render correctly for non-text content.",
           },
         ]}
       />

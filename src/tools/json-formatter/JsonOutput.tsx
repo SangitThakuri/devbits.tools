@@ -10,7 +10,7 @@ export function JsonOutput({ formatted, error }: JsonOutputProps) {
     return (
       <div className="flex flex-col gap-3">
         <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          Error
+          Output
         </label>
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-950">
           <p className="font-mono text-sm text-red-600 dark:text-red-400">{error}</p>
@@ -42,7 +42,7 @@ export function JsonOutput({ formatted, error }: JsonOutputProps) {
         </label>
         <CopyButton text={formatted} />
       </div>
-      <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 font-mono text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+      <pre className="overflow-x-auto rounded-lg border border-green-200 bg-gray-50 p-4 font-mono text-sm text-gray-900 dark:border-green-800 dark:bg-gray-900 dark:text-gray-100">
         <code>{formatted}</code>
       </pre>
     </div>

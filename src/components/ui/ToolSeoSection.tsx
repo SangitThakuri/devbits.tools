@@ -4,29 +4,34 @@ interface FaqItem {
 }
 
 interface ToolSeoSectionProps {
-  howItWorks: string[]
+  steps: string[]
   faqs: FaqItem[]
 }
 
-export function ToolSeoSection({ howItWorks, faqs }: ToolSeoSectionProps) {
+export function ToolSeoSection({ steps, faqs }: ToolSeoSectionProps) {
   return (
     <div className="mt-12 border-t border-gray-100 pt-10 text-gray-400 dark:border-gray-800 dark:text-gray-600">
       <section className="mb-8">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest">
-          How it works
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest">
+          How It Works
         </h2>
-        {howItWorks.map((p, i) => (
-          <p key={i} className="mb-2 text-sm leading-relaxed">
-            {p}
-          </p>
-        ))}
+        <ol className="space-y-2">
+          {steps.map((step, i) => (
+            <li key={i} className="flex gap-3 text-sm leading-relaxed">
+              <span className="shrink-0 font-mono font-semibold text-gray-300 dark:text-gray-700">
+                {i + 1}.
+              </span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest">
-          Frequently asked questions
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest">
+          Frequently Asked Questions
         </h2>
-        <dl className="space-y-4">
+        <dl className="space-y-5">
           {faqs.map((item, i) => (
             <div key={i}>
               <dt className="mb-1 text-sm font-medium text-gray-500 dark:text-gray-500">

@@ -12,12 +12,16 @@ export function CopyButton({ text }: CopyButtonProps) {
     <button
       type="button"
       onClick={() => copy(text)}
-      className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-750 dark:hover:text-gray-100"
+      className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+        copied
+          ? "border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-950 dark:text-green-400"
+          : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-750 dark:hover:text-gray-100"
+      }`}
     >
       {copied ? (
         <>
-          <Check className="h-4 w-4 text-green-500" />
-          <span>Copied</span>
+          <Check className="h-4 w-4" />
+          <span>Copied!</span>
         </>
       ) : (
         <>

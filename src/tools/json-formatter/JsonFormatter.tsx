@@ -7,6 +7,8 @@ import { ToolSeoSection } from "../../components/ui/ToolSeoSection"
 export default function JsonFormatter() {
   const { state, handleInputChange, handleFormat } = useJsonFormatter()
 
+  const status = state.error ? "error" : state.formatted ? "success" : "idle"
+
   return (
     <div className="mx-auto max-w-4xl">
       <Helmet>
@@ -25,6 +27,7 @@ export default function JsonFormatter() {
       <div className="grid gap-6 lg:grid-cols-2">
         <JsonInput
           value={state.input}
+          status={status}
           onChange={handleInputChange}
           onFormat={handleFormat}
         />
@@ -32,18 +35,20 @@ export default function JsonFormatter() {
       </div>
 
       <ToolSeoSection
-        howItWorks={[
-          "Paste any raw JSON string into the input panel. The formatter parses the text using the browser's native JSON.parse() and re-serializes it with configurable indentation — no data ever leaves your machine.",
-          "Syntax errors are caught immediately and highlighted with a precise error message pinpointing the offending line and character position, so you can fix malformed JSON without trial and error.",
+        steps={[
+          "Paste your raw JSON string into the input panel, or drag a .json / .txt file directly onto it.",
+          'Click "Format JSON" to parse and pretty-print with 2-space indentation.',
+          "Syntax errors are caught immediately — the input border turns red and a precise error message shows the exact offset.",
+          "When formatting succeeds, the input border turns green and the formatted output appears with a Copy button.",
         ]}
         faqs={[
           {
             q: "Is my JSON data sent to a server?",
-            a: "No. All formatting and validation runs entirely in your browser using JavaScript. Nothing is transmitted over the network.",
+            a: "No. All formatting and validation runs entirely in your browser using JavaScript's built-in JSON.parse(). Nothing is transmitted over the network.",
           },
           {
             q: "What is the maximum JSON size this tool can handle?",
-            a: "There is no hard limit imposed by the tool itself. Performance depends on your browser and device; files up to several megabytes typically process in under a second.",
+            a: "There is no hard limit imposed by the tool. Performance depends on your browser; files up to several megabytes typically process in under a second.",
           },
           {
             q: "Can I validate JSON Schema with this tool?",

@@ -7,6 +7,14 @@ import { ToolSeoSection } from "../../components/ui/ToolSeoSection"
 export default function JwtDebugger() {
   const { state, decoded, setInput } = useJwtDebugger()
 
+  const status = !state.input.trim()
+    ? "idle"
+    : decoded?.error
+      ? "error"
+      : decoded
+        ? "success"
+        : "idle"
+
   return (
     <div className="mx-auto max-w-4xl">
       <Helmet>
@@ -23,32 +31,34 @@ export default function JwtDebugger() {
       </div>
 
       <div className="mb-6">
-        <JwtInput value={state.input} onChange={setInput} />
+        <JwtInput value={state.input} status={status} onChange={setInput} />
       </div>
 
       <JwtOutput decoded={decoded} />
 
       <ToolSeoSection
-        howItWorks={[
-          "Paste a JWT (three Base64url-encoded segments separated by dots) into the input. The tool splits the token on the dot delimiter and decodes the header and payload segments using atob(), then pretty-prints the resulting JSON objects.",
-          "The signature segment is displayed as-is. Signature verification requires the secret or public key and is intentionally out of scope — this tool focuses on safe, read-only inspection of token contents without transmitting anything to a server.",
+        steps={[
+          "Paste a JWT (the three Base64url segments separated by dots) into the input, or drag a .jwt / .txt file onto it.",
+          "The header and payload are automatically decoded and displayed as formatted JSON with no button press required.",
+          "The signature segment is shown for reference — verification is intentionally not supported to keep your secret keys safe.",
+          "Use any Copy button to independently copy the header JSON, payload JSON, or raw signature string.",
         ]}
         faqs={[
           {
             q: "Is it safe to paste a real JWT here?",
-            a: "All decoding happens in your browser with no network requests. However, as a best practice, avoid pasting production tokens containing sensitive claims into any online tool. Use a test or already-expired token when possible.",
+            a: "All decoding runs in your browser with zero network requests. As a best practice, avoid pasting live production tokens into any online tool. Prefer test or already-expired tokens.",
           },
           {
             q: "Does this tool verify the JWT signature?",
-            a: "No. Signature verification requires the signing secret or public key, which you should never share with a third-party tool. This tool only decodes and displays the header and payload.",
+            a: "No. Signature verification requires the signing secret or public key. Sharing that with a third-party tool would be a security risk, so this tool focuses on safe read-only inspection.",
           },
           {
             q: "What algorithms does JWT support?",
-            a: "JWTs can be signed with HMAC algorithms (HS256, HS384, HS512), RSA (RS256, RS384, RS512), or ECDSA (ES256, ES384, ES512). The algorithm is declared in the 'alg' field of the decoded header.",
+            a: "JWTs can be signed with HMAC (HS256, HS384, HS512), RSA (RS256, RS384, RS512), or ECDSA (ES256, ES384, ES512). The algorithm is declared in the 'alg' field of the decoded header.",
           },
           {
             q: "What does 'exp' mean in the JWT payload?",
-            a: "The 'exp' claim is a Unix timestamp (seconds since January 1 1970 UTC) indicating when the token expires. Servers reject tokens presented after this time.",
+            a: "The 'exp' claim is a Unix timestamp (seconds since Jan 1 1970 UTC) indicating when the token expires. Servers reject tokens presented after this time.",
           },
         ]}
       />

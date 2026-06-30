@@ -16,11 +16,19 @@ export function useCodec() {
   }, [])
 
   const setType = useCallback((type: CodecType) => {
-    setState((prev) => ({ ...prev, type, output: prev.input ? transform(prev.input, type, prev.mode) : "" }))
+    setState((prev) => ({
+      ...prev,
+      type,
+      output: prev.input ? transform(prev.input, type, prev.mode) : "",
+    }))
   }, [])
 
   const setMode = useCallback((mode: CodecMode) => {
-    setState((prev) => ({ ...prev, mode, output: prev.input ? transform(prev.input, prev.type, mode) : "" }))
+    setState((prev) => ({
+      ...prev,
+      mode,
+      output: prev.input ? transform(prev.input, prev.type, mode) : "",
+    }))
   }, [])
 
   const output = useMemo(
@@ -28,5 +36,8 @@ export function useCodec() {
     [state.input, state.type, state.mode],
   )
 
-  return { state: { ...state, output }, handleInputChange, setType, setMode }
+  // Decode fails when input is non-empty but transform returns empty
+  const hasError = state.mode === "decode" && state.input.trim().length > 0 && output === ""
+
+  return { state: { ...state, output }, handleInputChange, setType, setMode, hasError }
 }
